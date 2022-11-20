@@ -19,7 +19,7 @@ bool isTick() {
     diffTime = UL_MAX_VALUE + diffTime + 1;
   }
 
-  return diffTime >= ONE_SECOND;
+  return diffTime >= ONE_SECOND * 5;
 }
 
 int getDiff() {

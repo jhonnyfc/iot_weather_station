@@ -7,22 +7,20 @@
 #include "./config/cloudVars.h"
 #include "./config/thingProperties.h"
 #include "./constants/global.h"
+#include "./utils/roundFloat.h"
 #include "./utils/tick.h"
 
-#define DHT11_PIN 19
-#define DHTTYPE DHT11
 DHT dht(DHT11_PIN, DHTTYPE);
 
-const int seaLevelPreassure = 1007.2;
 Adafruit_BMP280 bmp;
 
 void setup() {
   Serial.begin(9600);
-  Wire.begin(21, 22);  // sda= GPIO_21 /scl= GPIO_22
+  Wire.begin(SDA_PIN, SCL_PIN);
+
   delay(2000);
 
   dht.begin();
-
   if (!bmp.begin(0x76)) {
     Serial.println(F("#### Could not find a valid BMP280 sensor, check wiring! ####"));
   }
@@ -38,7 +36,7 @@ void loop() {
   ArduinoCloud.update();
 
   humidity = roundFloat(dht.readHumidity());
-  altitude = roundFloat(bmp.readAltitude(seaLevelPreassure));
+  altitude = roundFloat(bmp.readAltitude(SEE_LEVEL_PRESSURE));  // The "1019.66" is the pressure(hPa) at sea level in day in your region
   pressure = roundFloat(bmp.readPressure() / 100);
   temperature = roundFloat(bmp.readTemperature());
 
@@ -70,10 +68,6 @@ void printWeatherStats() {
   Serial.print(" hPa");
 
   Serial.print(F(" - Approx altitude: "));
-  Serial.print(altitude);  // The "1019.66" is the pressure(hPa) at sea level in day in your region
+  Serial.print(altitude);
   Serial.println(" m");
-}
-
-float roundFloat(float value) {
-  return roundf(value * 10) / 10;
 }
