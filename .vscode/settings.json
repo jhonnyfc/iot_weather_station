@@ -10,6 +10,14 @@
     "string_view": "cpp",
     "initializer_list": "cpp",
     "*.tcc": "cpp",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "optional": "cpp",
+    "istream": "cpp",
+    "ostream": "cpp",
+    "system_error": "cpp",
+    "functional": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "utility": "cpp"
   }
 }
